@@ -15,6 +15,8 @@ warnings.simplefilter(action='ignore', category=UserWarning)
 # Initialize Dash app
 app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.JOURNAL])
 
+server = app.server
+
 # Load the data
 forest_data = gpd.read_file("data/FADM_PROV_FOREST_simplified.geojson")
 wildfire_data = gpd.read_file("data/PROT_CURRENT_FIRE_PNTS_SP_simplified.geojson")
@@ -219,4 +221,4 @@ def update_plots(clickData, hoverData, date_range):
     return f"Selected Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}", fire_status_bar, fire_cause_bar, forest_zoomed_map
 
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
