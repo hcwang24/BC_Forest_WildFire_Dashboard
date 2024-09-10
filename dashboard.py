@@ -5,17 +5,18 @@ import plotly.express as px
 import geopandas as gpd
 import pandas as pd
 
-# Load the simplified GeoDataFrame
+# Load the simplified GeoDataFrame for forests
 forest_data_cleaned = gpd.read_file("data/FADM_PROV_FOREST_simplified.geojson")
+
+# Load the wildfire data
+wildfire_data = gpd.read_file("data/PROT_CURRENT_FIRE_PNTS_SP")
+wildfire_data = wildfire_data.to_crs("EPSG:4326")  # Ensure same CRS as forest data
 
 # Aggregate forest areas by region
 region_area = forest_data_cleaned.groupby('PRV_FRST_N')['AREA_SQM'].sum().sort_values(ascending=True)
 region_area_df = region_area.reset_index()
 
-# Create the Dash app
-app = dash.Dash(__name__)
-
-# Create the initial map figure
+# Create the initial map figure for forests
 map_fig = px.choropleth_mapbox(
     forest_data_cleaned,
     geojson=forest_data_cleaned.geometry.__geo_interface__,
@@ -27,6 +28,7 @@ map_fig = px.choropleth_mapbox(
     opacity=0.5,
     color_discrete_sequence=["green"] * len(forest_data_cleaned)
 )
+
 map_fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0}, height=800)
 
 # Create the initial bar plot figure with reversed order
@@ -40,16 +42,38 @@ bar_fig = px.bar(
 )
 bar_fig.update_layout(xaxis_title="Area (square meters)", yaxis_title="Forest Name", height=800)
 
-# Layout: Header, description, and the two graphs side by side
+# Create the initial map figure for wildfires
+fire_plot_fig = px.scatter_mapbox(
+    wildfire_data,
+    lat=wildfire_data.geometry.y,
+    lon=wildfire_data.geometry.x,
+    color='FIRESTATUS',  # Color by fire status (active or not)
+    color_discrete_map={'Active': 'red', 'Out': 'gray'},
+    hover_name='FIRE_NO',
+    mapbox_style="open-street-map",
+    zoom=4,
+    center={"lat": 53.7267, "lon": -125.6476},
+    opacity=0.7
+)
+fire_plot_fig.update_layout(
+    margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    height=800,
+    coloraxis_colorbar=dict(title=None, tickvals=[], ticks='')  # Remove color legend
+)
+
+# Create the Dash app
+app = dash.Dash(__name__)
+
+# Layout: Header, description, and the three graphs
 app.layout = html.Div([
-    html.H1("Forest Area Visualization in British Columbia"),
-    html.P("This dashboard visualizes forest areas by region. Click on a forest polygon to highlight the corresponding bar."),
+    html.H1("Forest and Wildfire Visualization in British Columbia"),
+    html.P("This dashboard visualizes forest areas by region and current wildfire locations. Click on a forest polygon to highlight the corresponding bar."),
     
     # Text section to display the selected forest info (static message)
     html.Div(id='selected-info', style={'margin-top': '20px', 'font-weight': 'bold'},
              children="Click on a forest polygon to see more details here."),
     
-    # Horizontal layout for graphs with loading messages
+    # Horizontal layout for forest and bar plots, with the wildfire plot below
     html.Div([
         dcc.Loading(
             id="loading-map-plot",
@@ -62,6 +86,13 @@ app.layout = html.Div([
             children=dcc.Graph(id='bar-plot', figure=bar_fig)
         )
     ], style={'display': 'flex', 'flex-direction': 'row'}),  # Horizontal layout
+    
+    # Static plot for wildfire data
+    dcc.Loading(
+        id="loading-fire-plot",
+        type="circle",
+        children=dcc.Graph(id='fire-plot', figure=fire_plot_fig)
+    )
 ])
 
 # Callback to update the bar plot based on map click
