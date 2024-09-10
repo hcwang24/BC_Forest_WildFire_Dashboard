@@ -10,6 +10,12 @@ The **BC Forest and Wildfire Dashboard** is an interactive web application devel
 - **Dynamic Updates**: Updates the dashboard based on user interactions with the map and date slider.
 - **Detailed Analysis**: Bar plots showing the distribution of fire statuses and causes.
 
+## Deployment
+
+This dashboard is deployed and accessible online at: [BC Forest and Wildfire Dashboard](https://bc-forest-wildfire-dashboard.onrender.com)
+
+Visit the link to explore forest coverage and wildfire incidents in British Columbia.
+
 ## Installation
 
 ### Prerequisites
