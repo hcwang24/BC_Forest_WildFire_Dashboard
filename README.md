@@ -31,8 +31,8 @@ pip install dash plotly geopandas pandas numpy dash-bootstrap-components
 ### Data Files
 
 Download the necessary data files and place them in a `data` directory within your project. The required files are:
-- `FADM_PROV_FOREST_simplified.geojson`: Forest data.
-- `PROT_CURRENT_FIRE_PNTS_SP_simplified.geojson`: Wildfire data.
+- `FADM_PROV_FOREST.geojson`: Forest data.
+- `PROT_CURRENT_FIRE_PNTS_SP.geojson`: Wildfire data.
 
 Download these files from the [BC Data Catalogue](https://catalogue.data.gov.bc.ca/dataset).
 
@@ -55,8 +55,8 @@ This will start a local server, and you can access the dashboard in your web bro
 
 ## Data Sources
 
-- **Forest Data**: [BC Forest Data](https://catalogue.data.gov.bc.ca/dataset/fadm-prov-forest-simplified)
-- **Wildfire Data**: [BC Wildfire Data](https://catalogue.data.gov.bc.ca/dataset/prot-current-fire-pnts-sp-simplified)
+- **Forest Data**: [BC Forest Data](https://catalogue.data.gov.bc.ca/dataset/fadm-provincial-forest)
+- **Wildfire Data**: [BC Wildfire Data](https://catalogue.data.gov.bc.ca/dataset/bc-wildfire-fire-locations-current)
 
 ## Acknowledgments
 
