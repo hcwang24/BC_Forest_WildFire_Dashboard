@@ -219,4 +219,4 @@ def update_plots(clickData, hoverData, date_range):
     return f"Selected Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}", fire_status_bar, fire_cause_bar, forest_zoomed_map
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
