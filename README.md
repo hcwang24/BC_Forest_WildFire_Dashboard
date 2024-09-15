@@ -4,7 +4,10 @@
 
 The **BC Forest and Wildfire Dashboard** is an interactive web application developed using Python Dash and Plotly. It provides a comprehensive visualization and analysis tool for wildfire incidents and forest coverage in British Columbia (BC), Canada. Users can explore wildfire data, examine forest boundaries, and analyze fire statuses and causes across different regions.
 
+<img src="demo/demo.png" width="1000" height="500"/>
+
 ### Features
+
 - **Interactive Map**: Visualizes wildfire locations and forest boundaries.
 - **Date Range Slider**: Filters wildfires based on ignition and termination dates.
 - **Dynamic Updates**: Updates the dashboard based on user interactions with the map and date slider.
